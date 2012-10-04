@@ -19,7 +19,7 @@
 /src/minecraft/*
 /src/minecraft_server/*
 /src/common/*
-!/src/common/org/selurgniman/forge/comparableconversion/
+!/src/common/selurgniman/
 !/src/common/mcmod.info
 !/src/common/SP.png
 
