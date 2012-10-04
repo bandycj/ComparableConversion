@@ -179,7 +179,7 @@ pip-log.txt
 /src/minecraft/*
 /src/minecraft_server/*
 /src/common/*
-!/src/common/org/selurgniman
+!/src/common/org/selurgniman/*
 !/src/common/mcmod.info
 !/src/common/SP.png
 
