@@ -58,7 +58,7 @@ Desktop.ini
 /src/minecraft/*
 /src/minecraft_server/*
 /src/common/*
-!/src/common/org/selurgniman/forge/comparableconversion
+!/src/common/org/selurgniman/forge/comparableconversion/
 !/src/common/mcmod.info
 !/src/common/SP.png
 
