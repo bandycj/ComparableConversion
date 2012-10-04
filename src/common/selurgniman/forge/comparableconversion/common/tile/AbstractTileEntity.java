@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.selurgniman.forge.comparableconversion.common.tile;
+package selurgniman.forge.comparableconversion.common.tile;
 
 /**
  * @author <a href="mailto:e83800@wnco.com">Chris Bandy</a>

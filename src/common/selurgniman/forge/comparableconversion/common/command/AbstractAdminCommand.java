@@ -1,13 +1,13 @@
 /**
  * 
  */
-package org.selurgniman.forge.comparableconversion.common.command;
+package selurgniman.forge.comparableconversion.common.command;
 
 import net.minecraft.src.CommandBase;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ICommandSender;
 
-import org.selurgniman.forge.comparableconversion.common.ComparableConversion;
+import selurgniman.forge.comparableconversion.common.ComparableConversion;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 

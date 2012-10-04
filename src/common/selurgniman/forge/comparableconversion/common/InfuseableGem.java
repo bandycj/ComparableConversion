@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.selurgniman.forge.comparableconversion.common;
+package selurgniman.forge.comparableconversion.common;
 
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.Item;

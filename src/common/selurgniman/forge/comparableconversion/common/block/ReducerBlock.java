@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.selurgniman.forge.comparableconversion.common.block;
+package selurgniman.forge.comparableconversion.common.block;
 
 import net.minecraft.src.Material;
 import net.minecraft.src.TileEntity;

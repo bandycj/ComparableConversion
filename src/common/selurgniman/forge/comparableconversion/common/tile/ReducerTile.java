@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.selurgniman.forge.comparableconversion.common.tile;
+package selurgniman.forge.comparableconversion.common.tile;
 
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.FurnaceRecipes;
@@ -11,7 +11,7 @@ import net.minecraft.src.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 
-import org.selurgniman.forge.comparableconversion.common.block.ReducerBlock;
+import selurgniman.forge.comparableconversion.common.block.ReducerBlock;
 
 /**
  * @author <a href="mailto:e83800@wnco.com">Chris Bandy</a> Created on: Oct 3,

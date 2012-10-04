@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.selurgniman.forge.comparableconversion;
+package selurgniman.forge.comparableconversion;
 
 import java.util.Map;
 import java.util.regex.Pattern;

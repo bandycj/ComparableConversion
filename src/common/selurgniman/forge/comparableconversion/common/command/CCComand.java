@@ -1,12 +1,12 @@
 /**
  * 
  */
-package org.selurgniman.forge.comparableconversion.common.command;
+package selurgniman.forge.comparableconversion.common.command;
 
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ICommandSender;
 
-import org.selurgniman.forge.comparableconversion.common.ComparableConversion;
+import selurgniman.forge.comparableconversion.common.ComparableConversion;
 
 /**
  * @author <a href="mailto:e83800@wnco.com">Chris Bandy</a> Created on: Oct 4,

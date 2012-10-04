@@ -1,9 +1,9 @@
 /**
  * 
  */
-package org.selurgniman.forge.comparableconversion.common;
+package selurgniman.forge.comparableconversion.common;
 
-import org.selurgniman.forge.comparableconversion.ChatColor;
+import selurgniman.forge.comparableconversion.ChatColor;
 
 import net.minecraftforge.common.Configuration;
 

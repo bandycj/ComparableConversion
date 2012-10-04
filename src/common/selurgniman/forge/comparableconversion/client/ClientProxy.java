@@ -1,9 +1,9 @@
 /**
  * 
  */
-package org.selurgniman.forge.comparableconversion.client;
+package selurgniman.forge.comparableconversion.client;
 
-import org.selurgniman.forge.comparableconversion.common.CommonProxy;
+import selurgniman.forge.comparableconversion.common.CommonProxy;
 
 import net.minecraftforge.client.MinecraftForgeClient;
 

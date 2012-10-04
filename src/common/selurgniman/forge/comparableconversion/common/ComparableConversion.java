@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.selurgniman.forge.comparableconversion.common;
+package selurgniman.forge.comparableconversion.common;
 
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.logging.Logger;
@@ -16,8 +16,8 @@ import net.minecraft.src.ServerCommandManager;
 import net.minecraft.src.ServerConfigurationManager;
 import net.minecraftforge.common.Configuration;
 
-import org.selurgniman.forge.comparableconversion.common.block.ReducerBlock;
-import org.selurgniman.forge.comparableconversion.common.command.CCComand;
+import selurgniman.forge.comparableconversion.common.block.ReducerBlock;
+import selurgniman.forge.comparableconversion.common.command.CCComand;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IPlayerTracker;
@@ -60,7 +60,7 @@ public class ComparableConversion {
 	public static ComparableConversion instance;
 
 	// Says where the client and server 'proxy' code is loaded.
-	@SidedProxy(clientSide = "org.selurgniman.forge.comparableconversion.client.ClientProxy", serverSide = "org.selurgniman.forge.comparableconversion.common.CommonProxy")
+	@SidedProxy(clientSide = "selurgniman.forge.comparableconversion.client.ClientProxy", serverSide = "selurgniman.forge.comparableconversion.common.CommonProxy")
 	public static CommonProxy proxy;
 
 	private Configuration config = null;

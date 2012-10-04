@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.selurgniman.forge.comparableconversion.common;
+package selurgniman.forge.comparableconversion.common;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
