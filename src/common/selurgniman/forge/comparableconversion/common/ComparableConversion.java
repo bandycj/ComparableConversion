@@ -3,7 +3,6 @@
  */
 package selurgniman.forge.comparableconversion.common;
 
-import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.logging.Logger;
 
 import net.minecraft.src.Block;
@@ -15,12 +14,9 @@ import net.minecraft.src.Material;
 import net.minecraft.src.ServerCommandManager;
 import net.minecraft.src.ServerConfigurationManager;
 import net.minecraftforge.common.Configuration;
-
 import selurgniman.forge.comparableconversion.common.block.ReducerBlock;
 import selurgniman.forge.comparableconversion.common.command.CCComand;
-
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.IPlayerTracker;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
