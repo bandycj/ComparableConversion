@@ -38,17 +38,14 @@ import cpw.mods.fml.relauncher.FMLRelauncher;
  *         2012
  */
 @Mod(modid = "ComparableConversion", name = "ComparableConversion", version = "0.0.0")
-@NetworkMod(clientSideRequired = true, serverSideRequired = false)
+@NetworkMod(clientSideRequired = true, serverSideRequired = true)
 public class ComparableConversion {
 	private static final Logger log = Logger.getLogger("Minecraft");
-	private static final Item rubyGem = new InfuseableGem(5001).setMaxStackSize(64).setIconIndex(0)
-			.setItemName("rubyGem");
-	private static final Item emeraldGem = new InfuseableGem(5002).setMaxStackSize(64).setIconIndex(1)
-			.setItemName("emeraldGem");
-	private static final Item diamondGem = new InfuseableGem(5003).setMaxStackSize(64).setIconIndex(2)
-			.setItemName("diamondGem");
-	private static final Block reducerBlock = new ReducerBlock(4095,  Material.rock);
-	
+	private static final Item rubyGem = new InfuseableGem(5001).setMaxStackSize(64).setIconIndex(0).setItemName("rubyGem").setMaxDamage(200000);
+	private static final Item emeraldGem = new InfuseableGem(5002).setMaxStackSize(64).setIconIndex(1).setItemName("emeraldGem").setMaxDamage(3200000);
+	private static final Item diamondGem = new InfuseableGem(5003).setMaxStackSize(64).setIconIndex(2).setItemName("diamondGem").setMaxDamage(51200000);
+	private static final Block reducerBlock = new ReducerBlock(4095, Material.rock);
+
 	private boolean isDebug = false;
 
 	// The instance of your mod that Forge uses.
@@ -63,6 +60,7 @@ public class ComparableConversion {
 
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
+		ComparableConversion.instance = this;
 		this.config = new Configuration(event.getSuggestedConfigurationFile());
 		this.config.load();
 		this.isDebug = this.config.get("debug", "debug", false).getBoolean(false);
@@ -72,8 +70,6 @@ public class ComparableConversion {
 
 	@Init
 	public void load(FMLInitializationEvent event) {
-		proxy.registerRenderers();
-
 		LanguageRegistry.addName(rubyGem, "Infuseable Ruby");
 		LanguageRegistry.addName(emeraldGem, "Infusable Emerald");
 		LanguageRegistry.addName(diamondGem, "Infusable Diamond");
@@ -91,13 +87,20 @@ public class ComparableConversion {
 		GameRegistry.addShapelessRecipe(emeraldStack, diamond);
 
 		GameRegistry.addSmelting(Block.stone.blockID, new ItemStack(Block.stoneBrick), 0.1f);
-		
+
 		GameRegistry.registerBlock(reducerBlock);
-		
-		
+
+		// Initialize mod tile entities
+        proxy.initTileEntities();
+        
+        if (FMLRelauncher.side() == Side.CLIENT.toString()) {
+	        // Initialize custom rendering and pre-load textures (Client only)
+	        proxy.registerRenderers();
+        }
+        
 		if (isDebug) {
 			GameRegistry.addShapelessRecipe(new ItemStack(reducerBlock), new ItemStack(Block.dirt));
-			if (FMLRelauncher.side() == Side.SERVER.toString()){
+			if (FMLRelauncher.side() == Side.SERVER.toString()) {
 				initServerDebug();
 			}
 		}
@@ -107,15 +110,15 @@ public class ComparableConversion {
 	public void postInit(FMLPostInitializationEvent event) {
 		// Stub Method
 	}
-	
+
 	@SideOnly(Side.SERVER)
-	private void initServerDebug(){
+	private void initServerDebug() {
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
-		if (commandManager instanceof ServerCommandManager){
-			((ServerCommandManager)commandManager).registerCommand(new CCComand(this));
+		if (commandManager instanceof ServerCommandManager) {
+			((ServerCommandManager) commandManager).registerCommand(new CCComand(this));
 		}
 	}
-	
+
 	public Configuration getConfig() {
 		return this.config;
 	}
@@ -132,13 +135,13 @@ public class ComparableConversion {
 		if (isDebug) {
 			ServerConfigurationManager configManager = FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager();
 			for (Object player : configManager.playerEntityList) {
-				messagePlayer((EntityPlayer)player, Message.DEBUG_MESSAGE + message);
+				messagePlayer((EntityPlayer) player, Message.DEBUG_MESSAGE + message);
 			}
 			log(Message.DEBUG_MESSAGE + message);
 		}
 	}
-	
-	public boolean isDebug(){
+
+	public boolean isDebug() {
 		return this.isDebug;
 	}
 }

@@ -4,26 +4,31 @@
 package selurgniman.forge.comparableconversion.common.tile;
 
 import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.FurnaceRecipes;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemRedstone;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.TileEntityFurnace;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-
 import selurgniman.forge.comparableconversion.common.block.ReducerBlock;
+import selurgniman.forge.comparableconversion.common.inventory.ReducerInventory;
 
 /**
  * @author <a href="mailto:e83800@wnco.com">Chris Bandy</a> Created on: Oct 3,
  *         2012
  */
-public class ReducerTile extends AbstractTileEntity implements IInventory, ISidedInventory {
+public class ReducerTile extends TileEntityFurnace implements IInventory, ISidedInventory {
 
 	/**
 	 * The ItemStacks that hold the items currently being used in the Reducer
 	 */
 	private ReducerInventory reducerInventory = new ReducerInventory();
 
+	
+	public ReducerInventory getInventory() {
+		return reducerInventory;
+	}
+	
 	/**
 	 * Do not make give this method the name canInteractWith because it clashes
 	 * with Container
@@ -51,13 +56,13 @@ public class ReducerTile extends AbstractTileEntity implements IInventory, ISide
      */
     private boolean canSmelt()
     {
-        if (this.reducerInventory.getItem() == null)
+        if (getInventory().getItem() == null)
         {
             return false;
         }
         else
         {
-//            ItemStack var1 = FurnaceRecipes.smelting().getSmeltingResult(this.reducerInventory.getItem());
+//            ItemStack var1 = FurnaceRecipes.smelting().getSmeltingResult(getInventory().getItem());
 //            if (var1 == null) return false;
 //            if (this.furnaceItemStacks[2] == null) return true;
 //            if (!this.furnaceItemStacks[2].isItemEqual(var1)) return false;
@@ -70,6 +75,7 @@ public class ReducerTile extends AbstractTileEntity implements IInventory, ISide
 	/**
      * Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack
      */
+    @Override
     public void smeltItem()
     {
         if (this.canSmelt())
@@ -109,7 +115,7 @@ public class ReducerTile extends AbstractTileEntity implements IInventory, ISide
 	 */
 	@Override
 	public int getSizeInventory() {
-		return this.reducerInventory.getSize();
+		return getInventory().getSize();
 	}
 
 	/**
@@ -117,7 +123,7 @@ public class ReducerTile extends AbstractTileEntity implements IInventory, ISide
 	 */
 	@Override
 	public ItemStack getStackInSlot(int slot) {
-		return this.reducerInventory.getSlot(slot);
+		return getInventory().getSlot(slot);
 	}
 
 	/**
@@ -146,7 +152,7 @@ public class ReducerTile extends AbstractTileEntity implements IInventory, ISide
 	 */
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack item) {
-		this.reducerInventory.setSlotContents(slot, item);
+		getInventory().setSlotContents(slot, item);
 	}
 
 	/**
@@ -197,72 +203,5 @@ public class ReducerTile extends AbstractTileEntity implements IInventory, ISide
 	@Override
 	public int getSizeInventorySide(ForgeDirection side) {
 		return 1;
-	}
-
-	private class ReducerInventory {
-		private ItemStack item = null;
-		private ItemStack fuel = null;
-		private ItemStack result = null;
-		private final int size = 3;
-		
-		public ItemStack getSlot(int slot){
-			switch(slot){
-				case 0: return item;
-				case 1: return fuel;
-				case 2: return result;
-				default: return null;
-			}
-		}
-		
-		public void setSlotContents(int slot, ItemStack item){
-			switch(slot){
-				case 0: setItem(item);
-				case 1: setFuel(item);
-				case 2: setResult(item);
-			}
-		}
-		
-		/**
-		 * @return the item
-		 */
-		public ItemStack getItem() {
-			return item;
-		}
-		/**
-		 * @param item the item to set
-		 */
-		public void setItem(ItemStack item) {
-			this.item = item;
-		}
-		/**
-		 * @return the fuel
-		 */
-		public ItemStack getFuel() {
-			return fuel;
-		}
-		/**
-		 * @param fuel the fuel to set
-		 */
-		public void setFuel(ItemStack fuel) {
-			this.fuel = fuel;
-		}
-		/**
-		 * @return the result
-		 */
-		public ItemStack getResult() {
-			return result;
-		}
-		/**
-		 * @param result the result to set
-		 */
-		public void setResult(ItemStack result) {
-			this.result = result;
-		}
-		/**
-		 * @return the size
-		 */
-		public int getSize() {
-			return size;
-		}
 	}
 }

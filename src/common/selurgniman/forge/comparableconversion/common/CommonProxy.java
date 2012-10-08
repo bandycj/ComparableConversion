@@ -3,15 +3,50 @@
  */
 package selurgniman.forge.comparableconversion.common;
 
+import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.World;
+import selurgniman.forge.comparableconversion.client.gui.ReducerGui;
+import selurgniman.forge.comparableconversion.common.block.ReducerBlock;
+import selurgniman.forge.comparableconversion.common.container.ReducerContainer;
+import selurgniman.forge.comparableconversion.common.tile.ReducerTile;
+import cpw.mods.fml.common.network.IGuiHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
+
 /**
- * @author <a href="mailto:e83800@wnco.com">Chris Bandy</a>
- * Created on: Oct 2, 2012
+ * @author <a href="mailto:e83800@wnco.com">Chris Bandy</a> Created on: Oct 2,
+ *         2012
  */
-public class CommonProxy {
-	public static String GEMS_PNG = "/org/selurgniman/forge/npcmod/gems.png";
-	
-	// Client stuff
-	public void registerRenderers () {
-		// Nothing here as this is the server side proxy
+public class CommonProxy implements IGuiHandler {
+	public static final String GEMS_PNG = "/selurgniman/forge/comparableconversion/resources/gems.png";
+	public static final String REDUCER_BLOCK_PNG = "/selurgniman/forge/comparableconversion/resources/reducerBlock.png";
+	public static final String REDUCER_GUI_PNG = "/selurgniman/forge/comparableconversion/resources/reducerGui.png";
+
+	public static int reducerRenderId = -1;
+
+	public void registerRenderers() {
+	}
+
+	public void initTileEntities() {
+		GameRegistry.registerTileEntity(ReducerTile.class, "reducerTile");
+	}
+
+	@Override
+	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		if (ID == ReducerBlock.GUID) {
+			ReducerTile reducer = (ReducerTile) world.getBlockTileEntity(x, y, z);
+			return new ReducerContainer(player.inventory, reducer);
+		}
+
+		return null;
+	}
+
+	@Override
+	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		if (ID == ReducerBlock.GUID) {
+			ReducerTile reducer = (ReducerTile) world.getBlockTileEntity(x, y, z);
+			return new ReducerGui(player.inventory, reducer);
+		}
+
+		return null;
 	}
 }

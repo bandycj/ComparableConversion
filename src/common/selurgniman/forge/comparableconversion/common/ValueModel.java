@@ -43,7 +43,6 @@ public class ValueModel {
 		this.blockValues = new ArrayList<BlockValue>();
 
 		loadMap();
-		initConfig();
 	}
 
 	private void loadMap() {
@@ -131,11 +130,6 @@ public class ValueModel {
 			e.printStackTrace();
 		}
 	}
-
-	private void initConfig() {
-		
-	}
-
 	
 	private void calculateCost(IRecipe recipe) {
 		try {
@@ -189,7 +183,7 @@ public class ValueModel {
 		return (getValue(item) > -1);
 	}
 
-	private Integer getValue(Item item) {
+	public Integer getValue(Item item) {
 		Integer value = -1;
 
 		if (item instanceof ItemBlock) {

@@ -21,8 +21,7 @@ public class InfuseableGem extends Item {
 		setMaxStackSize(64);
 		setCreativeTab(CreativeTabs.tabMisc);
 		setIconIndex(0);
-		setItemName("genericInfusableGem");
-		
+		setItemName("genericInfusableGem");	
 	}
 
 	public String getTextureFile() {
