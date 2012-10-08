@@ -3,7 +3,6 @@
  */
 package comparableconversion.common;
 
-import comparableconversion.ChatColor;
 
 import net.minecraftforge.common.Configuration;
 
