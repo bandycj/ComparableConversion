@@ -1,14 +1,15 @@
 /**
  * 
  */
-package selurgniman.forge.comparableconversion.common;
+package comparableconversion.common;
+
+import comparableconversion.client.gui.ReducerGui;
+import comparableconversion.common.block.ReducerBlock;
+import comparableconversion.common.container.ReducerContainer;
+import comparableconversion.common.tile.ReducerTile;
 
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.World;
-import selurgniman.forge.comparableconversion.client.gui.ReducerGui;
-import selurgniman.forge.comparableconversion.common.block.ReducerBlock;
-import selurgniman.forge.comparableconversion.common.container.ReducerContainer;
-import selurgniman.forge.comparableconversion.common.tile.ReducerTile;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 

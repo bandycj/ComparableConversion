@@ -1,9 +1,12 @@
 /**
  * 
  */
-package selurgniman.forge.comparableconversion.common;
+package comparableconversion.common;
 
 import java.util.logging.Logger;
+
+import comparableconversion.common.block.ReducerBlock;
+import comparableconversion.common.command.CCComand;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;
@@ -14,8 +17,6 @@ import net.minecraft.src.Material;
 import net.minecraft.src.ServerCommandManager;
 import net.minecraft.src.ServerConfigurationManager;
 import net.minecraftforge.common.Configuration;
-import selurgniman.forge.comparableconversion.common.block.ReducerBlock;
-import selurgniman.forge.comparableconversion.common.command.CCComand;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;

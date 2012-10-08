@@ -1,7 +1,7 @@
 /**
  * 
  */
-package selurgniman.forge.comparableconversion.common.inventory;
+package comparableconversion.common.inventory;
 
 import net.minecraft.src.ItemStack;
 

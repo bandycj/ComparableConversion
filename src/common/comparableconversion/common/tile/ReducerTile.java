@@ -1,7 +1,10 @@
 /**
  * 
  */
-package selurgniman.forge.comparableconversion.common.tile;
+package comparableconversion.common.tile;
+
+import comparableconversion.common.block.ReducerBlock;
+import comparableconversion.common.inventory.ReducerInventory;
 
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
@@ -10,8 +13,6 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntityFurnace;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import selurgniman.forge.comparableconversion.common.block.ReducerBlock;
-import selurgniman.forge.comparableconversion.common.inventory.ReducerInventory;
 
 /**
  * @author <a href="mailto:e83800@wnco.com">Chris Bandy</a> Created on: Oct 3,

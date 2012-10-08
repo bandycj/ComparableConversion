@@ -1,14 +1,15 @@
 /**
  * 
  */
-package selurgniman.forge.comparableconversion.common.command;
+package comparableconversion.common.command;
+
+import comparableconversion.common.ComparableConversion;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ICommandSender;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
-import selurgniman.forge.comparableconversion.common.ComparableConversion;
 
 /**
  * @author <a href="mailto:e83800@wnco.com">Chris Bandy</a> Created on: Oct 4,

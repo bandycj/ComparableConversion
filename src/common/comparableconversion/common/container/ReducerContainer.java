@@ -1,7 +1,12 @@
 /**
  * 
  */
-package selurgniman.forge.comparableconversion.common.container;
+package comparableconversion.common.container;
+
+import comparableconversion.common.ComparableConversion;
+import comparableconversion.common.InfuseableGem;
+import comparableconversion.common.ValueModel;
+import comparableconversion.common.tile.ReducerTile;
 
 import net.minecraft.src.Container;
 import net.minecraft.src.EntityPlayer;
@@ -9,10 +14,6 @@ import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Slot;
-import selurgniman.forge.comparableconversion.common.ComparableConversion;
-import selurgniman.forge.comparableconversion.common.InfuseableGem;
-import selurgniman.forge.comparableconversion.common.ValueModel;
-import selurgniman.forge.comparableconversion.common.tile.ReducerTile;
 
 /**
  * @author <a href="mailto:selurgniman@selurgniman.org">Selurgniman</a>

@@ -1,11 +1,12 @@
 /**
  * 
  */
-package selurgniman.forge.comparableconversion.client.render;
+package comparableconversion.client.render;
+
+import comparableconversion.common.tile.ReducerTile;
 
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;
-import selurgniman.forge.comparableconversion.common.tile.ReducerTile;
 
 /**
  * @author <a href="mailto:selurgniman@selurgniman.org">Selurgniman</a>

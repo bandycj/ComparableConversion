@@ -1,14 +1,15 @@
 /**
  * 
  */
-package selurgniman.forge.comparableconversion.common.block;
+package comparableconversion.common.block;
+
+import comparableconversion.common.ComparableConversion;
+import comparableconversion.common.tile.ReducerTile;
 
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.Material;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import selurgniman.forge.comparableconversion.common.ComparableConversion;
-import selurgniman.forge.comparableconversion.common.tile.ReducerTile;
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
 

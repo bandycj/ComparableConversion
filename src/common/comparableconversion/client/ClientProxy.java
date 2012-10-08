@@ -1,12 +1,13 @@
 /**
  * 
  */
-package selurgniman.forge.comparableconversion.client;
+package comparableconversion.client;
+
+import comparableconversion.client.render.RenderReducer;
+import comparableconversion.common.CommonProxy;
+import comparableconversion.common.tile.ReducerTile;
 
 import net.minecraftforge.client.MinecraftForgeClient;
-import selurgniman.forge.comparableconversion.client.render.RenderReducer;
-import selurgniman.forge.comparableconversion.common.CommonProxy;
-import selurgniman.forge.comparableconversion.common.tile.ReducerTile;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 

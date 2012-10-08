@@ -1,7 +1,7 @@
 /**
  * 
  */
-package selurgniman.forge.comparableconversion.common.block;
+package comparableconversion.common.block;
 
 /**
  * @author <a href="mailto:e83800@wnco.com">Chris Bandy</a>

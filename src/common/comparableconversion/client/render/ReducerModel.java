@@ -1,7 +1,7 @@
 /**
  * 
  */
-package selurgniman.forge.comparableconversion.client.render;
+package comparableconversion.client.render;
 
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
@@ -9,8 +9,9 @@ import net.minecraftforge.client.ForgeHooksClient;
 
 import org.lwjgl.opengl.GL11;
 
-import selurgniman.forge.comparableconversion.common.CommonProxy;
-import selurgniman.forge.comparableconversion.common.tile.ReducerTile;
+import comparableconversion.common.CommonProxy;
+import comparableconversion.common.tile.ReducerTile;
+
 
 /**
  * @author <a href="mailto:selurgniman@selurgniman.org">Selurgniman</a>

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package selurgniman.forge.comparableconversion.client.gui;
+package comparableconversion.client.gui;
 
 import net.minecraft.src.GuiContainer;
 import net.minecraft.src.InventoryPlayer;
@@ -9,9 +9,10 @@ import net.minecraft.src.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import selurgniman.forge.comparableconversion.common.CommonProxy;
-import selurgniman.forge.comparableconversion.common.container.ReducerContainer;
-import selurgniman.forge.comparableconversion.common.tile.ReducerTile;
+import comparableconversion.common.CommonProxy;
+import comparableconversion.common.container.ReducerContainer;
+import comparableconversion.common.tile.ReducerTile;
+
 
 /**
  * @author <a href="mailto:selurgniman@selurgniman.org">Selurgniman</a>
