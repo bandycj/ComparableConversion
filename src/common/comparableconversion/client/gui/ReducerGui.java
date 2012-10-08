@@ -20,8 +20,8 @@ import comparableconversion.common.tile.ReducerTile;
  */
 public class ReducerGui extends GuiContainer {
 
-    private ReducerTile reducer;
-    
+	private ReducerTile reducer;
+	
     public ReducerGui(InventoryPlayer player, ReducerTile reducer) {
         super(new ReducerContainer(player, reducer));
         this.ySize = 176;
@@ -30,7 +30,7 @@ public class ReducerGui extends GuiContainer {
     
     protected void drawGuiContainerForegroundLayer()
     {
-        this.fontRenderer.drawString("Calcinator", 60, 6, 4210752);
+        this.fontRenderer.drawString("Reducer", 60, 6, 4210752);
         this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
     }
 
@@ -42,17 +42,15 @@ public class ReducerGui extends GuiContainer {
         int var5 = (this.width - this.xSize) / 2;
         int var6 = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(var5, var6, 0, 0, this.xSize, this.ySize);
+        
         int burnTimeRemaining;
-
-        // This bit shows the "fire" effect in the GUI
-        if (reducer.isBurning())
+        if (this.reducer.isBurning())
         {
-            burnTimeRemaining = reducer.getBurnTimeRemainingScaled(12);
+            burnTimeRemaining = this.reducer.getBurnTimeRemainingScaled(12);
             this.drawTexturedModalRect(var5 + 56, var6 + 36 + 12 - burnTimeRemaining, 176, 12 - burnTimeRemaining, 14, burnTimeRemaining + 2);
         }
 
-        //This bit shows the progress bar in the GUI
-        burnTimeRemaining = reducer.getCookProgressScaled(24);
+        burnTimeRemaining = this.reducer.getCookProgressScaled(24);
         this.drawTexturedModalRect(var5 + 79, var6 + 34, 176, 14, burnTimeRemaining + 1, 16);
     }
     

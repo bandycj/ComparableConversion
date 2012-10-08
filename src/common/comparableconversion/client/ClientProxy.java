@@ -30,7 +30,6 @@ public class ClientProxy extends CommonProxy {
     public void initTileEntities() {
     	super.initTileEntities();
     	
-    	ClientRegistry.bindTileEntitySpecialRenderer(ReducerTile.class, new RenderReducer());
-    	
+    	ClientRegistry.bindTileEntitySpecialRenderer(ReducerTile.class, new RenderReducer());	
     }
 }

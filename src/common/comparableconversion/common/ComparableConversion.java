@@ -5,18 +5,18 @@ package comparableconversion.common;
 
 import java.util.logging.Logger;
 
-import comparableconversion.common.block.ReducerBlock;
-import comparableconversion.common.command.CCComand;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ICommandManager;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.Material;
 import net.minecraft.src.ServerCommandManager;
 import net.minecraft.src.ServerConfigurationManager;
 import net.minecraftforge.common.Configuration;
+
+import comparableconversion.common.block.ReducerBlock;
+import comparableconversion.common.command.CCComand;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -30,6 +30,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.FMLRelauncher;
@@ -45,7 +46,7 @@ public class ComparableConversion {
 	private static final Item rubyGem = new InfuseableGem(5001).setMaxStackSize(64).setIconIndex(0).setItemName("rubyGem").setMaxDamage(200000);
 	private static final Item emeraldGem = new InfuseableGem(5002).setMaxStackSize(64).setIconIndex(1).setItemName("emeraldGem").setMaxDamage(3200000);
 	private static final Item diamondGem = new InfuseableGem(5003).setMaxStackSize(64).setIconIndex(2).setItemName("diamondGem").setMaxDamage(51200000);
-	private static final Block reducerBlock = new ReducerBlock(4095, Material.rock);
+	private static final Block reducerBlock = new ReducerBlock(4095);
 
 	private boolean isDebug = false;
 
@@ -54,7 +55,7 @@ public class ComparableConversion {
 	public static ComparableConversion instance;
 
 	// Says where the client and server 'proxy' code is loaded.
-	@SidedProxy(clientSide = "selurgniman.forge.comparableconversion.client.ClientProxy", serverSide = "selurgniman.forge.comparableconversion.common.CommonProxy")
+	@SidedProxy(clientSide = "comparableconversion.client.ClientProxy", serverSide = "comparableconversion.common.CommonProxy")
 	public static CommonProxy proxy;
 
 	private Configuration config = null;
@@ -105,6 +106,8 @@ public class ComparableConversion {
 				initServerDebug();
 			}
 		}
+		
+		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 	}
 
 	@PostInit
