@@ -8,13 +8,12 @@ import java.util.logging.Logger;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ICommandManager;
-import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.ServerCommandManager;
 import net.minecraft.src.ServerConfigurationManager;
 import net.minecraftforge.common.Configuration;
 
-import comparableconversion.common.block.ReducerBlock;
+import comparableconversion.common.block.ConverterBlock;
 import comparableconversion.common.command.CCComand;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -32,7 +31,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.FMLRelauncher;
 
 /**
@@ -43,15 +41,13 @@ import cpw.mods.fml.relauncher.FMLRelauncher;
 @NetworkMod(clientSideRequired = true, serverSideRequired = true)
 public class ComparableConversion {
 	private static final Logger log = Logger.getLogger("Minecraft");
-	private static final Item rubyGem = new InfuseableGem(5001).setMaxStackSize(64).setIconIndex(0).setItemName("rubyGem").setMaxDamage(200000);
-	private static final Item emeraldGem = new InfuseableGem(5002).setMaxStackSize(64).setIconIndex(1).setItemName("emeraldGem").setMaxDamage(3200000);
-	private static final Item diamondGem = new InfuseableGem(5003).setMaxStackSize(64).setIconIndex(2).setItemName("diamondGem").setMaxDamage(51200000);
-	private static final Block reducerBlock = new ReducerBlock(4095);
+
+	private static final Block converterBlock = new ConverterBlock(4095);
 
 	private boolean isDebug = false;
 
 	// The instance of your mod that Forge uses.
-	@Instance("Generic")
+	@Instance("ComparableConversion")
 	public static ComparableConversion instance;
 
 	// Says where the client and server 'proxy' code is loaded.
@@ -66,32 +62,16 @@ public class ComparableConversion {
 		this.config = new Configuration(event.getSuggestedConfigurationFile());
 		this.config.load();
 		this.isDebug = this.config.get("debug", "debug", false).getBoolean(false);
-		ValueModel.getInstance(this);
+		
 		this.config.save();
 	}
 
 	@Init
 	public void load(FMLInitializationEvent event) {
-		LanguageRegistry.addName(rubyGem, "Infuseable Ruby");
-		LanguageRegistry.addName(emeraldGem, "Infusable Emerald");
-		LanguageRegistry.addName(diamondGem, "Infusable Diamond");
+		GameRegistry.registerBlock(converterBlock);
 
-		ItemStack ruby = new ItemStack(rubyGem);
-		ItemStack rubyStack = new ItemStack(rubyGem, 9);
-		ItemStack emerald = new ItemStack(emeraldGem);
-		ItemStack emeraldStack = new ItemStack(emeraldGem, 9);
-		ItemStack diamond = new ItemStack(diamondGem);
-
-		// Crafting Recipes
-		GameRegistry.addRecipe(emerald, "xxx", "xxx", "xxx", 'x', ruby);
-		GameRegistry.addShapelessRecipe(rubyStack, emerald);
-		GameRegistry.addRecipe(diamond, "xxx", "xxx", "xxx", 'x', emerald);
-		GameRegistry.addShapelessRecipe(emeraldStack, diamond);
-
-		GameRegistry.addSmelting(Block.stone.blockID, new ItemStack(Block.stoneBrick), 0.1f);
-
-		GameRegistry.registerBlock(reducerBlock);
-
+		ValueModel.getInstance(this);
+		
 		// Initialize mod tile entities
         proxy.initTileEntities();
         
@@ -101,7 +81,7 @@ public class ComparableConversion {
         }
         
 		if (isDebug) {
-			GameRegistry.addShapelessRecipe(new ItemStack(reducerBlock), new ItemStack(Block.dirt));
+			GameRegistry.addShapelessRecipe(new ItemStack(converterBlock), new ItemStack(Block.dirt));
 			if (FMLRelauncher.side() == Side.SERVER.toString()) {
 				initServerDebug();
 			}

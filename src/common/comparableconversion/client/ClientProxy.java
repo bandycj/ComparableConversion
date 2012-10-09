@@ -3,11 +3,12 @@
  */
 package comparableconversion.client;
 
-import comparableconversion.client.render.RenderReducer;
-import comparableconversion.common.CommonProxy;
-import comparableconversion.common.tile.ReducerTile;
-
 import net.minecraftforge.client.MinecraftForgeClient;
+
+import comparableconversion.client.render.ConverterRender;
+import comparableconversion.common.CommonProxy;
+import comparableconversion.common.tile.ConverterTile;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
@@ -19,7 +20,6 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void registerRenderers() {
-		MinecraftForgeClient.preloadTexture(GEMS_PNG);
 		MinecraftForgeClient.preloadTexture(REDUCER_BLOCK_PNG);
 		MinecraftForgeClient.preloadTexture(REDUCER_GUI_PNG);
 		
@@ -30,6 +30,6 @@ public class ClientProxy extends CommonProxy {
     public void initTileEntities() {
     	super.initTileEntities();
     	
-    	ClientRegistry.bindTileEntitySpecialRenderer(ReducerTile.class, new RenderReducer());	
+    	ClientRegistry.bindTileEntitySpecialRenderer(ConverterTile.class, new ConverterRender());	
     }
 }

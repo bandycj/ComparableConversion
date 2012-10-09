@@ -7,9 +7,9 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 
-import comparableconversion.client.gui.ReducerGui;
-import comparableconversion.common.container.ReducerContainer;
-import comparableconversion.common.tile.ReducerTile;
+import comparableconversion.client.gui.ConverterGui;
+import comparableconversion.common.container.ConverterContainer;
+import comparableconversion.common.tile.ConverterTile;
 
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -19,7 +19,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
  *         2012
  */
 public class CommonProxy implements IGuiHandler {
-	public static final String GEMS_PNG = "/comparableconversion/resources/gems.png";
+	
 	public static final String REDUCER_BLOCK_PNG = "/comparableconversion/resources/reducerBlock.png";
 	public static final String REDUCER_GUI_PNG = "/comparableconversion/resources/reducerGui.png";
 
@@ -29,15 +29,15 @@ public class CommonProxy implements IGuiHandler {
 	}
 
 	public void initTileEntities() {
-		GameRegistry.registerTileEntity(ReducerTile.class, "reducerTile");
+		GameRegistry.registerTileEntity(ConverterTile.class, "reducerTile");
 	}
 
 	// returns an instance of the Container you made earlier
 	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-		if (tileEntity instanceof ReducerTile) {
-			return new ReducerContainer(player.inventory, (ReducerTile) tileEntity);
+		if (tileEntity instanceof ConverterTile) {
+			return new ConverterContainer(player.inventory, (ConverterTile) tileEntity);
 		}
 		return null;
 	}
@@ -46,8 +46,8 @@ public class CommonProxy implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-		if (tileEntity instanceof ReducerTile) {
-			return new ReducerGui(player.inventory, (ReducerTile) tileEntity);
+		if (tileEntity instanceof ConverterTile) {
+			return new ConverterGui(player.inventory, (ConverterTile) tileEntity);
 		}
 		return null;
 	}

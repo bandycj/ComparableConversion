@@ -10,20 +10,20 @@ import net.minecraft.src.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import comparableconversion.common.CommonProxy;
-import comparableconversion.common.container.ReducerContainer;
-import comparableconversion.common.tile.ReducerTile;
+import comparableconversion.common.container.ConverterContainer;
+import comparableconversion.common.tile.ConverterTile;
 
 
 /**
  * @author <a href="mailto:selurgniman@selurgniman.org">Selurgniman</a>
  *
  */
-public class ReducerGui extends GuiContainer {
+public class ConverterGui extends GuiContainer {
 
-	private ReducerTile reducer;
+	private ConverterTile reducer;
 	
-    public ReducerGui(InventoryPlayer player, ReducerTile reducer) {
-        super(new ReducerContainer(player, reducer));
+    public ConverterGui(InventoryPlayer player, ConverterTile reducer) {
+        super(new ConverterContainer(player, reducer));
         this.ySize = 176;
         this.reducer = reducer;
     }
@@ -42,16 +42,9 @@ public class ReducerGui extends GuiContainer {
         int var5 = (this.width - this.xSize) / 2;
         int var6 = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(var5, var6, 0, 0, this.xSize, this.ySize);
-        
-        int burnTimeRemaining;
-        if (this.reducer.isBurning())
-        {
-            burnTimeRemaining = this.reducer.getBurnTimeRemainingScaled(12);
-            this.drawTexturedModalRect(var5 + 56, var6 + 36 + 12 - burnTimeRemaining, 176, 12 - burnTimeRemaining, 14, burnTimeRemaining + 2);
-        }
 
-        burnTimeRemaining = this.reducer.getCookProgressScaled(24);
-        this.drawTexturedModalRect(var5 + 79, var6 + 34, 176, 14, burnTimeRemaining + 1, 16);
+        int progress = this.reducer.getCookProgressScaled(24);
+        this.drawTexturedModalRect(var5 + 84, var6 + 41, 176, 14, progress + 1, 16);
     }
     
 }

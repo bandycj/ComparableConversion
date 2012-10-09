@@ -10,14 +10,14 @@ import net.minecraftforge.client.ForgeHooksClient;
 import org.lwjgl.opengl.GL11;
 
 import comparableconversion.common.CommonProxy;
-import comparableconversion.common.tile.ReducerTile;
+import comparableconversion.common.tile.ConverterTile;
 
 
 /**
  * @author <a href="mailto:selurgniman@selurgniman.org">Selurgniman</a>
  *
  */
-public class ReducerModel extends ModelBase {
+public class ConverterModel extends ModelBase {
     
     private static final int TEXTURE_HEIGHT = 128;
     private static final int TEXTURE_WIDTH = 128;
@@ -29,7 +29,7 @@ public class ReducerModel extends ModelBase {
     private ModelRenderer ashLayer;
     private float scale;
     
-    public ReducerModel(float scale) {
+    public ConverterModel(float scale) {
         this.scale = scale;
         this.textureHeight = TEXTURE_HEIGHT;
         this.textureWidth = TEXTURE_WIDTH;
@@ -97,7 +97,7 @@ public class ReducerModel extends ModelBase {
         this.ashLayer.mirror = true;
     }
 
-    public void render(ReducerTile reducer, double x, double y, double z) {
+    public void render(ConverterTile reducer, double x, double y, double z) {
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_LIGHTING);
 

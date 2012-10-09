@@ -9,25 +9,31 @@ import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Slot;
 
-import comparableconversion.common.tile.ReducerTile;
+import comparableconversion.common.tile.ConverterTile;
 
 /**
  * @author <a href="mailto:selurgniman@selurgniman.org">Selurgniman</a>
  * 
  */
-public class ReducerContainer extends Container {
+public class ConverterContainer extends Container {
 
-	protected ReducerTile reducer;
+	protected ConverterTile reducer;
 
 	/**
 	 * @param inventoryPlayer
 	 * @param reducer
 	 */
-	public ReducerContainer(InventoryPlayer inventoryPlayer, ReducerTile reducer) {
+	public ConverterContainer(InventoryPlayer inventoryPlayer, ConverterTile reducer) {
 		this.reducer = reducer;
 
-		addSlotToContainer(new Slot(reducer, ReducerTile.REDUCER_SLOT, 56, 35));
-		addSlotToContainer(new Slot(reducer, ReducerTile.GEM_SLOT, 116, 35));
+		addSlotToContainer(new Slot(reducer, ConverterTile.CONVERTER_SLOT, 56, 35));
+		addSlotToContainer(new Slot(reducer, ConverterTile.RESULT_SLOT, 118, 35));
+		addSlotToContainer(new Slot(reducer, ConverterTile.FOCUS_SLOT, 87, 62){
+			@Override
+			public void onSlotChanged(){
+				
+			}
+		});
 
 		bindPlayerInventory(inventoryPlayer);
 	}

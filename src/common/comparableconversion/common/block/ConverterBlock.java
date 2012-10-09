@@ -16,17 +16,17 @@ import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 
 import comparableconversion.common.ComparableConversion;
-import comparableconversion.common.tile.ReducerTile;
+import comparableconversion.common.tile.ConverterTile;
 
 /**
  * @author <a href="mailto:e83800@wnco.com">Chris Bandy</a> Created on: Oct 3,
  *         2012
  */
-public class ReducerBlock extends BlockContainer {
+public class ConverterBlock extends BlockContainer {
 	private static final String NAME = "Reducer";
 	public static final int GUID = 1;
 
-	public ReducerBlock(int id) {
+	public ConverterBlock(int id) {
 		super(id, Material.wood);
 		setHardness(2.0F);
 		setResistance(5.0F);
@@ -87,7 +87,7 @@ public class ReducerBlock extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
-		return new ReducerTile();
+		return new ConverterTile();
 	}
 
 	/**

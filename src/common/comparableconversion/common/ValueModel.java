@@ -182,22 +182,26 @@ public class ValueModel {
 	private boolean have(Item item) {
 		return (getValue(item) > -1);
 	}
+	
+	public int getValue(Item item){
+		return getValue(new ItemStack(item));
+	}
 
-	public Integer getValue(Item item) {
+	public Integer getValue(ItemStack itemStack) {
 		Integer value = -1;
-
+		Item item = itemStack.getItem();
 		if (item instanceof ItemBlock) {
 			ItemBlock itemBlock = (ItemBlock) item;
 			Block block = Block.blocksList[itemBlock.getBlockID()];
 			for (BlockValue blockValue : blockValues) {
 				if (blockValue.getBlock().equals(block)) {
-					return blockValue.getValue();
+					return blockValue.getValue()*itemStack.stackSize;
 				}
 			}
 		} else {
 			for (ItemValue itemValue : itemValues) {
 				if (itemValue.getItem().equals(item)) {
-					return itemValue.getValue();
+					return itemValue.getValue()*itemStack.stackSize;
 				}
 			}
 		}
