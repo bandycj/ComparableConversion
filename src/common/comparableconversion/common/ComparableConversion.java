@@ -15,6 +15,7 @@ import net.minecraftforge.common.Configuration;
 
 import comparableconversion.common.block.ConverterBlock;
 import comparableconversion.common.command.CCComand;
+import comparableconversion.common.utils.PacketHandler;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -38,7 +39,7 @@ import cpw.mods.fml.relauncher.FMLRelauncher;
  *         2012
  */
 @Mod(modid = "ComparableConversion", name = "ComparableConversion", version = "0.0.0")
-@NetworkMod(clientSideRequired = true, serverSideRequired = true)
+@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { PacketHandler.CHANNEL }, packetHandler = PacketHandler.class)
 public class ComparableConversion {
 	private static final Logger log = Logger.getLogger("Minecraft");
 
@@ -62,7 +63,7 @@ public class ComparableConversion {
 		this.config = new Configuration(event.getSuggestedConfigurationFile());
 		this.config.load();
 		this.isDebug = this.config.get("debug", "debug", false).getBoolean(false);
-		
+
 		this.config.save();
 	}
 
@@ -71,22 +72,22 @@ public class ComparableConversion {
 		GameRegistry.registerBlock(converterBlock);
 
 		ValueModel.getInstance(this);
-		
+
 		// Initialize mod tile entities
-        proxy.initTileEntities();
-        
-        if (FMLRelauncher.side() == Side.CLIENT.toString()) {
-	        // Initialize custom rendering and pre-load textures (Client only)
-	        proxy.registerRenderers();
-        }
-        
+		proxy.initTileEntities();
+
+		if (FMLRelauncher.side() == Side.CLIENT.toString()) {
+			// Initialize custom rendering and pre-load textures (Client only)
+			proxy.registerRenderers();
+		}
+
 		if (isDebug) {
 			GameRegistry.addShapelessRecipe(new ItemStack(converterBlock), new ItemStack(Block.dirt));
 			if (FMLRelauncher.side() == Side.SERVER.toString()) {
 				initServerDebug();
 			}
 		}
-		
+		NetworkRegistry.instance().registerChannel(new PacketHandler(), PacketHandler.CHANNEL);
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 	}
 
@@ -117,7 +118,8 @@ public class ComparableConversion {
 
 	public void debug(String message) {
 		if (isDebug) {
-			ServerConfigurationManager configManager = FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager();
+			ServerConfigurationManager configManager = FMLCommonHandler.instance().getMinecraftServerInstance()
+					.getConfigurationManager();
 			for (Object player : configManager.playerEntityList) {
 				messagePlayer((EntityPlayer) player, Message.DEBUG_MESSAGE + message);
 			}

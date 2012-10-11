@@ -3,7 +3,9 @@
  */
 package comparableconversion.common.block;
 
+import java.util.Comparator;
 import java.util.Random;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 import net.minecraft.src.BlockContainer;
 import net.minecraft.src.EntityItem;
@@ -25,9 +27,20 @@ import comparableconversion.common.tile.ConverterTile;
 public class ConverterBlock extends BlockContainer {
 	private static final String NAME = "Reducer";
 	public static final int GUID = 1;
-
+	private final ConcurrentSkipListSet<EntityPlayer>playersUsing;
+	
 	public ConverterBlock(int id) {
 		super(id, Material.wood);
+		this.playersUsing = new ConcurrentSkipListSet<EntityPlayer>(new Comparator<EntityPlayer>(){
+			@Override
+			public int compare(EntityPlayer o1, EntityPlayer o2) {
+				if (o1 != null && o2 !=null){
+					return o1.getEntityName().compareTo(o2.getEntityName());
+				}
+				return 0;
+			}
+		});
+		
 		setHardness(2.0F);
 		setResistance(5.0F);
 		setBlockName("block" + NAME);
@@ -40,6 +53,7 @@ public class ConverterBlock extends BlockContainer {
 		if (tileEntity == null || player.isSneaking()) {
 			return false;
 		}
+		playersUsing.add(player);
 		// opens gui, to be implemented later
 		player.openGui(ComparableConversion.instance, 0, world, x, y, z);
 		return true;
@@ -48,6 +62,7 @@ public class ConverterBlock extends BlockContainer {
 	@Override
 	public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
 		dropItems(world, x, y, z);
+		playersUsing.clear();
 		super.breakBlock(world, x, y, z, par5, par6);
 	}
 
@@ -96,5 +111,26 @@ public class ConverterBlock extends BlockContainer {
 	@Override
 	public String toString() {
 		return NAME;
+	}
+
+	/**
+	 * @return the playersUsing
+	 */
+	public ConcurrentSkipListSet<EntityPlayer> getPlayersUsing() {
+		return playersUsing;
+	}
+	
+	/**
+	 * @param player
+	 */
+	public void addPlayerUsing(EntityPlayer player) {
+		playersUsing.add(player);
+	}
+	
+	/**
+	 * @param player
+	 */
+	public void removePlayerUsing(EntityPlayer player) {
+		playersUsing.remove(player);
 	}
 }

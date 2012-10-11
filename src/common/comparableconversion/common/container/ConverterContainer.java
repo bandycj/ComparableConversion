@@ -5,9 +5,13 @@ package comparableconversion.common.container;
 
 import net.minecraft.src.Container;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.IInventory;
+import net.minecraft.src.InventoryCraftResult;
+import net.minecraft.src.InventoryCrafting;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Slot;
+import net.minecraft.src.SlotCrafting;
 
 import comparableconversion.common.tile.ConverterTile;
 
@@ -17,25 +21,54 @@ import comparableconversion.common.tile.ConverterTile;
  */
 public class ConverterContainer extends Container {
 
-	protected ConverterTile reducer;
+	protected ConverterTile converter;
+	public IInventory craftResult = new InventoryCraftResult();
 
 	/**
 	 * @param inventoryPlayer
-	 * @param reducer
+	 * @param converter
 	 */
-	public ConverterContainer(InventoryPlayer inventoryPlayer, ConverterTile reducer) {
-		this.reducer = reducer;
-
-		addSlotToContainer(new Slot(reducer, ConverterTile.CONVERTER_SLOT, 56, 35));
-		addSlotToContainer(new Slot(reducer, ConverterTile.RESULT_SLOT, 118, 35));
-		addSlotToContainer(new Slot(reducer, ConverterTile.FOCUS_SLOT, 87, 62){
-			@Override
-			public void onSlotChanged(){
-				
-			}
-		});
+	public ConverterContainer(InventoryPlayer inventoryPlayer, ConverterTile converter) {
+		this.converter = converter;
+		this.converter.addEventHandler(this);
+		addSlotToContainer(new Slot(converter, ConverterTile.CONVERTER_SLOT, 56, 35));
+		addSlotToContainer(new Slot(converter, ConverterTile.FOCUS_SLOT, 87, 62));
+		addSlotToContainer(new SlotCrafting(inventoryPlayer.player, this.converter, this.craftResult, 0, 87, 62));
+		// addSlotToContainer(new Slot(converter, ConverterTile.RESULT_SLOT,
+		// 118, 35) {
+		// @Override
+		// public boolean isItemValid(ItemStack itemStack) {
+		// return false;
+		// }
+		//
+		// @Override
+		// public void onPickupFromSlot(ItemStack itemStack) {
+		// super.onPickupFromSlot(itemStack);
+		// int value =
+		// ValueModel.getInstance(ComparableConversion.instance).getValue(itemStack);
+		// if (value > 0) {
+		// converter.reduceStoredValue(value);
+		// }
+		// }
+		// });
 
 		bindPlayerInventory(inventoryPlayer);
+		this.onCraftMatrixChanged(this.converter);
+	}
+
+	/**
+	 * Callback for when the crafting matrix is changed.
+	 */
+	@Override
+	public void onCraftMatrixChanged(IInventory par1IInventory) {
+		// if (converter.getStoredValue() >= converter.getFocusValue()){
+		ItemStack focusItem = converter.getStackInSlot(ConverterTile.FOCUS_SLOT);
+		if (focusItem != null) {
+			focusItem = focusItem.copy();
+			focusItem.stackSize = 1;
+		}
+		this.craftResult.setInventorySlotContents(0, focusItem);
+		// }
 	}
 
 	/**
@@ -43,7 +76,7 @@ public class ConverterContainer extends Container {
 	 */
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return reducer.isUseableByPlayer(player);
+		return converter.isUseableByPlayer(player);
 	}
 
 	/**
