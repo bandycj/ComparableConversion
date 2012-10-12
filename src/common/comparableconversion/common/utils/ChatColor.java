@@ -1,7 +1,7 @@
 /**
  * 
  */
-package comparableconversion.common;
+package comparableconversion.common.utils;
 
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -160,7 +160,7 @@ public enum ChatColor {
      * Gets the color represented by the specified color code
      *
      * @param code Code to check
-     * @return Associative {@link comparableconversion.common.bukkit.ChatColor} with the given code, or null if it doesn't exist
+     * @return Associative {@link comparableconversion.common.utils.bukkit.ChatColor} with the given code, or null if it doesn't exist
      */
     public static ChatColor getByChar(char code) {
         return BY_CHAR.get(code);
@@ -170,7 +170,7 @@ public enum ChatColor {
      * Gets the color represented by the specified color code
      *
      * @param code Code to check
-     * @return Associative {@link comparableconversion.common.bukkit.ChatColor} with the given code, or null if it doesn't exist
+     * @return Associative {@link comparableconversion.common.utils.bukkit.ChatColor} with the given code, or null if it doesn't exist
      */
     public static ChatColor getByChar(String code) {
     	if (code !=null && code.isEmpty()){	

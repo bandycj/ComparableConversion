@@ -44,7 +44,7 @@ public class ConverterGui extends GuiContainer {
         this.drawTexturedModalRect(var5, var6, 0, 0, this.xSize, this.ySize);
 
         int progress = this.reducer.getCookProgressScaled(24);
-        this.drawTexturedModalRect(var5 + 84, var6 + 41, 176, 14, progress + 1, 16);
+        this.drawTexturedModalRect(var5 + 84, var6 + 41 -8, 176, 14, progress + 1, 16);
     }
     
 }

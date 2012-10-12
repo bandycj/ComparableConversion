@@ -1,7 +1,7 @@
 /**
  * 
  */
-package comparableconversion.common;
+package comparableconversion.common.utils;
 
 
 import net.minecraftforge.common.Configuration;

@@ -15,7 +15,9 @@ import net.minecraftforge.common.Configuration;
 
 import comparableconversion.common.block.ConverterBlock;
 import comparableconversion.common.command.CCComand;
+import comparableconversion.common.utils.Message;
 import comparableconversion.common.utils.PacketHandler;
+import comparableconversion.common.utils.ValueModel;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
