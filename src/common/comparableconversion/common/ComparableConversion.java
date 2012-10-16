@@ -3,6 +3,7 @@
  */
 package comparableconversion.common;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.src.Block;
@@ -117,13 +118,21 @@ public class ComparableConversion {
 	public static void log(String message) {
 		log.info(Message.PREFIX + " " + message);
 	}
+	
+	public void error(Exception e){
+		log.log(Level.WARNING, Message.DEBUG_MESSAGE.toString(), e);
+		debug("[ERROR] "+e.getMessage());
+	}
 
 	public void debug(String message) {
 		if (isDebug) {
-			ServerConfigurationManager configManager = FMLCommonHandler.instance().getMinecraftServerInstance()
-					.getConfigurationManager();
-			for (Object player : configManager.playerEntityList) {
-				messagePlayer((EntityPlayer) player, Message.DEBUG_MESSAGE + message);
+			Side side = FMLCommonHandler.instance().getEffectiveSide();
+			if (side == Side.SERVER) {
+				ServerConfigurationManager configManager = FMLCommonHandler.instance().getMinecraftServerInstance()
+						.getConfigurationManager();
+				for (Object player : configManager.playerEntityList) {
+					messagePlayer((EntityPlayer) player, Message.DEBUG_MESSAGE + message);
+				}
 			}
 			log(Message.DEBUG_MESSAGE + message);
 		}

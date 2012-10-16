@@ -3,6 +3,7 @@
  */
 package comparableconversion.common.tile;
 
+import net.minecraft.src.Chunk;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EntityPlayerMP;
 import net.minecraft.src.IInventory;
@@ -11,6 +12,7 @@ import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagList;
 import net.minecraft.src.Packet;
 import net.minecraft.src.TileEntity;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 
@@ -20,6 +22,7 @@ import comparableconversion.common.events.ConverterValueEvent;
 import comparableconversion.common.utils.PacketHandler;
 import comparableconversion.common.utils.ValueModel;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
 
@@ -27,14 +30,9 @@ import cpw.mods.fml.common.asm.SideOnly;
  * @author <a href="mailto:e83800@wnco.com">Chris Bandy</a> Created on: Oct 3,
  *         2012
  */
-/**
- * @author <a href="mailto:e83800@wnco.com">Chris Bandy</a>
- * Created on: Oct 12, 2012
- */
 public class ConverterTile extends TileEntity implements IInventory {
 	public static final int CONVERTER_SLOT = 0;
-	// public static final int RESULT_SLOT = 1;
-	public static final int FOCUS_SLOT = 2;
+	public static final int FOCUS_SLOT = 1;
 
 	private final ItemStack[] inv;
 	private Integer storedValue;
@@ -42,6 +40,8 @@ public class ConverterTile extends TileEntity implements IInventory {
 	private final ValueModel valueModel;
 
 	private EntityPlayerMP thePlayer;
+	private int timeSinceLastForceSave = 0;
+	private boolean valueChanged = false;
 
 	/**
 	 * The number of ticks that a fresh copy of the currently-burning item would
@@ -53,10 +53,23 @@ public class ConverterTile extends TileEntity implements IInventory {
 	public int converterCookTime = 0;
 
 	public ConverterTile() {
-		this.inv = new ItemStack[3];
+		this.inv = new ItemStack[2];
 		this.storedValue = 0;
 		this.focusValue = 0;
 		this.valueModel = ValueModel.getInstance(ComparableConversion.instance);
+		MinecraftForge.EVENT_BUS.register(this);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void updateEntity() {
+		super.updateEntity();
+		this.timeSinceLastForceSave++;
+		if ((this.valueChanged && this.timeSinceLastForceSave > 20) || this.timeSinceLastForceSave > 6000) {
+			forceChunkSave();
+		}
 	}
 
 	@Override
@@ -75,33 +88,6 @@ public class ConverterTile extends TileEntity implements IInventory {
 		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
 			stack.stackSize = getInventoryStackLimit();
 		}
-		//
-		// switch (slot) {
-		// case FOCUS_SLOT:
-		// if (stack != null) {
-		// setFocusValue(valueModel.getValue(stack.getItem()));
-		// } else {
-		// setFocusValue(-1);
-		// }
-		//
-		// inv[FOCUS_SLOT] = stack;
-		// break;
-		// case CONVERTER_SLOT:
-		// if (stack != null) {
-		// setStoredValue(getStoredValue() + valueModel.getValue(stack));
-		// }
-		//
-		// inv[CONVERTER_SLOT] = null;
-		// break;
-		// case RESULT_SLOT:
-		// if (canConvert() && inv[FOCUS_SLOT] != null) {
-		// inv[RESULT_SLOT] = inv[FOCUS_SLOT].copy();
-		// } else {
-		// inv[RESULT_SLOT] = null;
-		// }
-		//
-		// break;
-		// }
 
 		this.onInventoryChanged();
 	}
@@ -117,13 +103,14 @@ public class ConverterTile extends TileEntity implements IInventory {
 
 	@Override
 	public int getInventoryStackLimit() {
-		return 64;
+		return 1;
 	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
 		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this
-				&& player.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 64;
+				&& player.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 64
+				&& (thePlayer != null && thePlayer == player);
 	}
 
 	@Override
@@ -141,16 +128,13 @@ public class ConverterTile extends TileEntity implements IInventory {
 				}
 			}
 		}
-		// } else if (canConvert()) {
-		// stack = getStackInSlot(FOCUS_SLOT).copy();
-		// stack.stackSize = 1;
-		// }
+
 		return stack;
 	}
 
 	@Override
 	public void openChest() {
-		sendPacketToPlayer();
+
 	}
 
 	@Override
@@ -161,6 +145,7 @@ public class ConverterTile extends TileEntity implements IInventory {
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
 
+		this.storedValue = tagCompound.getInteger("StoredValue");
 		NBTTagList tagList = tagCompound.getTagList("Inventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
@@ -169,16 +154,12 @@ public class ConverterTile extends TileEntity implements IInventory {
 				inv[slot] = ItemStack.loadItemStackFromNBT(tag);
 			}
 		}
-
-		setStoredValue(tagCompound.getInteger("StoredValue"));
-		setFocusValue(tagCompound.getInteger("FocusValue"));
+		ComparableConversion.instance.debug("Read NBT: " + tagCompound);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
-		tagCompound.setInteger("StoredValue", getStoredValue());
-		tagCompound.setInteger("FocusValue", getFocusValue());
 
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < inv.length; i++) {
@@ -191,6 +172,8 @@ public class ConverterTile extends TileEntity implements IInventory {
 			}
 		}
 		tagCompound.setTag("Inventory", itemList);
+		tagCompound.setInteger("StoredValue", getStoredValue());
+		ComparableConversion.instance.debug("Write NBT: " + tagCompound);
 	}
 
 	/**
@@ -208,6 +191,9 @@ public class ConverterTile extends TileEntity implements IInventory {
 	public int getCookProgressScaled(int max) {
 		try {
 			int progress = (getStoredValue() / getFocusValue()) * max;
+			if (progress > max){
+				progress = max;
+			}
 			return progress;
 		} catch (ArithmeticException ex) {
 			return 0;
@@ -217,15 +203,7 @@ public class ConverterTile extends TileEntity implements IInventory {
 	public void setPlayer(EntityPlayer player) {
 		if (player instanceof EntityPlayerMP) {
 			this.thePlayer = (EntityPlayerMP) player;
-			// Side side = FMLCommonHandler.instance().getEffectiveSide();
-			// if (side == Side.SERVER) {
-			// Packet valuePacket =
-			// PacketHandler.assembleValuePacket(this.getStoredValue());
-			// Packet focusPacket =
-			// PacketHandler.assembleFocusPacket(this.getFocusValue());
-			// sendPacketToPlayer(valuePacket);
-			// sendPacketToPlayer(focusPacket);
-			// }
+			sendPacketToPlayer();
 		}
 	}
 
@@ -242,11 +220,11 @@ public class ConverterTile extends TileEntity implements IInventory {
 	}
 
 	public void setFocusValue(int newValue) {
-		System.err.println("focus: " + newValue);
+		ComparableConversion.instance.debug("setFocusValue: " + this.focusValue + "->" + newValue);
 		this.focusValue = newValue;
 	}
 
-	public void storeValue(ItemStack item) {
+	public void increaseStoredValue(ItemStack item) {
 		if (item != null) {
 			setStoredValue(getStoredValue() + valueModel.getValue(item));
 		}
@@ -257,26 +235,47 @@ public class ConverterTile extends TileEntity implements IInventory {
 	}
 
 	public void reduceStoredValue(int amount) {
-		if (amount > 0) {
-			setStoredValue(getStoredValue() - amount);
+		int newValue = getStoredValue() - amount;
+		if (amount > 0 && newValue >= 0) {
+			setStoredValue(newValue);
 		}
 	}
 
 	private void setStoredValue(int newValue) {
-		System.err.println("stored: " + newValue);
-		this.storedValue = newValue;
+		Side side = FMLCommonHandler.instance().getEffectiveSide();
+		if (side == Side.SERVER) {
+			ComparableConversion.instance.debug("setStoredValue: " + this.storedValue + "->" + newValue);
+			this.storedValue = newValue;
+			this.valueChanged = true;
+			sendPacketToPlayer();
+		}
 	}
 
-	public void sendPacketToPlayer() {
-		if (thePlayer != null) {
-			Packet valuePacket = PacketHandler.assembleValuePacket(getStoredValue());
-			thePlayer.playerNetServerHandler.sendPacketToPlayer(valuePacket);
+	private void forceChunkSave() {
+		Chunk chunk = this.worldObj.getChunkFromBlockCoords(xCoord, yCoord);
+		chunk.setChunkModified();
+		chunk.needsSaving(true);
+
+		this.worldObj.getChunkProvider().saveChunks(false, null);
+		this.timeSinceLastForceSave = 0;
+		this.valueChanged = false;
+	}
+
+	private void sendPacketToPlayer() {
+		Side side = FMLCommonHandler.instance().getEffectiveSide();
+		if (side == Side.SERVER && thePlayer != null) {
+			Packet valuePacket = PacketHandler.assembleValuePacket(getStoredValue(), this.xCoord, this.yCoord,
+					this.zCoord);
+			PacketHandler.sendPacketToPlayer(thePlayer, valuePacket);
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
 	@ForgeSubscribe(priority = EventPriority.NORMAL)
 	public void valueChangeEvent(ConverterValueEvent event) {
-		this.storedValue = event.getNewValue();
+		if (this.xCoord == event.getX() && this.yCoord == event.getY() && this.zCoord == event.getZ()) {
+			ComparableConversion.instance.debug("valueChangeEvent: " + this.storedValue + "->" + event.getNewValue());
+			this.storedValue = event.getNewValue();
+		}
 	}
 }

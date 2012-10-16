@@ -92,17 +92,23 @@ public class CCComand extends AbstractAdminCommand {
 			String giveItemName = commandOpts[1];
 			int amount = 1;
 			if (commandOpts.length > 2) {
-				amount = Integer.parseInt(commandOpts[2]);
+				try {
+					amount = Integer.parseInt(commandOpts[2]);
+				} catch (NumberFormatException ex) {
+					giveItemName = giveItemName+commandOpts[2];
+				}
 			}
 			for (Item item : Item.itemsList) {
-				if (item != null && item.getItemName() != null && giveItemName.equalsIgnoreCase(item.getItemName().replace("item.", ""))) {
+				if (item != null && item.getItemName() != null
+						&& giveItemName.equalsIgnoreCase(item.getItemName().replace("item.", ""))) {
 					giveItem = new ItemStack(item, amount);
 					break;
 				}
 			}
 			if (giveItem == null) {
 				for (Block block : Block.blocksList) {
-					if (block != null && block.getBlockName() != null && giveItemName.equalsIgnoreCase(block.getBlockName().replace("tile.", ""))) {
+					if (block != null && block.getBlockName() != null
+							&& giveItemName.equalsIgnoreCase(block.getBlockName().replace("tile.", ""))) {
 						giveItem = new ItemStack(block, amount);
 						break;
 					}
